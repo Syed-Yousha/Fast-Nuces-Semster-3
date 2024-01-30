@@ -1,0 +1,41 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+.data
+array BYTE 61,43,11,52,25
+array2 BYTE 5 DUP(?)
+
+.code
+main PROC
+
+mov eax, 0
+mov al, [array + 2]
+mov array2, al
+
+mov eax, 0
+mov al, [array + 4]
+mov [array2 + 1], al
+
+mov eax, 0
+mov al, [array + 1]
+mov [array2 + 2], al
+
+mov eax, 0
+mov al, [array + 3]
+mov [array2 + 3], al
+
+mov eax, 0
+mov al, array
+mov [array2 + 4], al
+
+
+
+
+call DumpRegs
+exit
+main ENDP
+END main
+
+
+if array is in word indexing will be +2 and al will become ax.
+
+if array is in dword indexing will be +4 and al will become eax.

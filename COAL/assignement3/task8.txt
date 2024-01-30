@@ -1,0 +1,11 @@
+    B9 00 12
+        MOV ECX, 1200h
+
+    8C 85 DC 01
+        MOV [EBP-284h], [EBP+1DCh]
+
+    8B 87 56 78
+        MOV EAX, [EDI+7856h]
+
+    28 1D
+        SUB BYTE PTR [EBX], BL

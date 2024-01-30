@@ -1,0 +1,98 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+
+.data
+    Eid DWORD 5 DUP(0)
+    Ename BYTE 100 DUP(?)    
+    Eyear DWORD 5 DUP(0)
+    Esal DWORD 5 DUP(0)
+    sum dword 0
+    prompt_id BYTE "Enter id: ", 0
+    prompt_name BYTE "Enter name: ", 0
+    prompt_year BYTE "Enter year: ", 0
+    prompt_sal BYTE "Enter salary: ", 0
+
+.code
+main PROC
+;For Id's
+    mov eax, 0
+    mov edx, OFFSET prompt_id
+    mov ecx, 5
+    mov esi, offset Eid
+
+emp_id:
+    call WriteString
+    call Crlf
+    call readint
+    mov [esi], eax
+    add esi, type Eid
+loop emp_id
+
+;For names
+mov ecx, 5
+mov esi, offset Ename
+
+emp_name:
+    mov edx, 0
+    mov edx, offset prompt_name
+    call WriteString
+    call Crlf
+    call readstring
+    mov [esi], edx
+    add esi, type Ename
+loop emp_name
+
+;For Birth year
+    mov eax, 0
+    mov edx, OFFSET prompt_year
+    mov ecx, 5
+    mov esi, offset Eyear
+
+emp_year:
+    call WriteString
+    call Crlf
+    call readint
+    mov [esi], eax
+    add esi, type Eyear
+loop emp_year
+
+;For Salary
+    mov eax, 0
+    mov edx, OFFSET prompt_sal
+    mov ecx, 5
+    mov esi, offset Esal
+
+emp_sal:
+    call WriteString
+    call Crlf
+    call readint
+    mov [esi], eax
+    add esi, type Esal
+loop emp_sal
+
+call Sal_calc
+
+call DumpRegs
+invoke ExitProcess, 0
+main ENDP
+
+Sal_calc Proc
+    mov esi, offset Esal
+    mov eax, 0
+    mov ecx, 5
+
+    sum_sal:
+        add eax, [esi]
+        add esi, type Esal
+    loop sum_sal
+
+    call crlf
+    call crlf
+    call Writedec
+    call crlf
+    call crlf
+
+
+Sal_calc ENDP
+
+END main

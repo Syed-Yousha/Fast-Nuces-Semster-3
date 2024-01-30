@@ -1,0 +1,6 @@
+and al, 1101 1111 -> upper case
+or al, 0011 0000 -> ascii conversion
+test al, 8000h -> check positive, if yes then zf=1
+
+or al, 80f -> sf=1
+and al, 7Fh -> sf=0

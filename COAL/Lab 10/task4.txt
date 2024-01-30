@@ -1,0 +1,48 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+
+.data
+str1 byte "Hello",0
+str_rev byte 100 dup(0)
+
+.code
+main PROC
+
+	mov esi, offset str1
+	mov edi, offset str_rev
+
+	call string_reverse
+
+call dumpregs
+main ENDP
+
+string_reverse proc
+
+	   mov ecx, lengthof str1
+	   l1:
+			inc esi 
+	   loop l1
+		
+		dec esi
+		dec esi
+
+		mov ecx, lengthof str1
+		reverse:
+
+			mov al, [esi]
+			mov [edi], al
+
+			inc edi
+			dec esi
+
+		loop reverse
+				
+		mov edi, offset str_rev
+		mov edx, edi
+		call writeString
+
+	   ret
+
+string_reverse endp
+
+END main

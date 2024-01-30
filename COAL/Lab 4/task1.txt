@@ -1,0 +1,24 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+.data
+A DWORD 0FF10h
+B DWORD 0E10Bh
+
+.code
+main PROC
+
+mov eax, A
+mov ebx, B
+mov B, eax
+mov A, ebx
+
+; New values
+mov eax, A
+mov ebx, B
+
+
+
+call DumpRegs
+exit
+main ENDP
+END main

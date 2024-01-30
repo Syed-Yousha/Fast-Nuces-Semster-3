@@ -1,0 +1,50 @@
+
+INCLUDE Irvine32.inc
+
+.data
+    array1 DWORD 1, 2, 3, 4, 5
+    array2 DWORD 6, 7, 8, 9, 10
+    result1 DWORD ?
+    result2 DWORD ?
+    finalResult DWORD ?
+
+.code
+main PROC
+    mov esi, OFFSET array1
+    mov ecx, 5
+    call SumArray
+    mov result1, eax
+
+    mov esi, OFFSET array2
+    mov ecx, 5
+    call SumArray
+    mov result2, eax
+
+    mov eax, result1
+    add eax, result2
+    mov finalResult, eax
+
+    mov edx, OFFSET resultMsg
+    call WriteString
+    mov eax, finalResult
+    call WriteInt
+    call Crlf
+
+    exit
+main ENDP
+
+SumArray PROC
+    mov eax, 0
+
+    sum_loop:
+        add eax, [esi]
+        add esi, 4
+        loop sum_loop
+
+    ret
+SumArray ENDP
+
+resultMsg BYTE "Final Result: ", 0
+
+END main
+```

@@ -1,0 +1,56 @@
+INCLUDE Irvine32.inc
+
+.data
+    Str1 BYTE 'Hello', 0
+    Str2 BYTE 'Hello', 0
+
+.code
+main PROC
+    mov  esi, OFFSET Str1
+    mov  edi, OFFSET Str2
+    call IsCompare
+    cmp  eax, 1
+    je   strings_equal
+    jmp  strings_not_equal
+
+    strings_equal:
+        call WriteString
+        jmp  exit_program
+
+    strings_not_equal:
+        call WriteString
+        jmp  exit_program
+
+    exit_program:
+        call Crlf
+        exit
+
+main ENDP
+
+IsCompare PROC
+    xor  ecx, ecx
+
+    compare_loop:
+        mov  al, [esi]
+        cmp  al, [edi]
+        jne  not_equal
+
+        cmp  al, 0
+        je   equal
+
+        inc  esi
+        inc  edi
+        jmp  compare_loop
+
+    equal:
+        mov  eax, 1
+        jmp  done
+
+    not_equal:
+        mov  eax, 0
+
+    done:
+        ret
+IsCompare ENDP
+
+END main

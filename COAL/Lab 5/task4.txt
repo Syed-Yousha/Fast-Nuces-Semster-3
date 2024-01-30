@@ -1,0 +1,29 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+
+.data
+source byte "Hello",0
+target byte 10 dup(?)
+.code
+main PROC
+
+mov esi, OFFSET source
+mov edi, OFFSET target
+mov ecx, sizeof source
+
+L1:
+	
+	mov al, [esi]
+	inc esi
+	mov [edi], al
+	inc edi
+
+loop l1
+
+mov edx, OFFSET target
+call WriteString
+call crlf
+
+call DumpRegs
+main ENDP
+END main

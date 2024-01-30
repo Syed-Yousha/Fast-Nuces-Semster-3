@@ -1,0 +1,45 @@
+INCLUDE Irvine32.inc
+
+.data
+array1 SDWORD 1,2,3,4,5,6
+array2 SDWORD 2,2,4,7,5,8
+arr_len byte 6
+
+countMatch PROTO arr1: PTR SDWORD, arr2: PTR SDWORD, len: PTR byte 
+
+.code
+main PROC
+
+INVOKE  countMatch, ADDR array1, ADDR array2, ADDR arr_len
+
+call DumpRegs
+exit
+main ENDP
+
+countMatch PROC USES esi edi edx ecx ,arr1: PTR SDWORD, arr2: PTR SDWORD, len: PTR byte 
+
+	mov esi, arr1
+	mov edi, arr2
+	mov edx, len
+	mov ecx, [edx]
+	mov eax, 0
+
+	l1:
+		mov edx, [esi]
+		cmp edx, [edi]
+		je count
+		jne next
+
+
+		count:
+		inc eax
+		
+		next:
+		add esi, 4
+		add edi, 4
+	loop l1
+
+ret
+countMatch ENDP
+
+END main

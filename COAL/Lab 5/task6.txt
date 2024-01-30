@@ -1,0 +1,58 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+
+.data
+array dword 8,5,1,2,6
+
+.code
+main PROC
+
+mov esi, OFFSET array
+mov edi, OFFSET array + (TYPE array)
+mov ecx, lengthof array
+
+L1:
+	mov eax, ecx
+	mov ecx, lengthof array
+
+	L2:
+
+		mov ebx, [esi]
+		mov edx, [edi]
+		
+		cmp ebx, edx
+		jna not_greater 
+		
+		mov [esi], edx
+		mov [edi], ebx
+
+		not_greater:
+		
+		add esi, TYPE array
+		add edi, TYPE array
+
+	loop L2
+
+	mov esi, OFFSET array
+	mov edi, OFFSET array + (TYPE array)
+
+	mov ecx, eax
+
+loop L1
+
+mov esi, OFFSET array + (Type array)
+mov ecx, lengthof array 
+
+display:
+
+	mov eax, [esi]
+	call WriteDec
+	call crlf
+	add esi, TYPE array
+
+loop display
+
+call DumpRegs
+call ExitProcess 
+main ENDP
+END main

@@ -1,0 +1,19 @@
+I. ADD AL, [BX + SI]
+
+    Machine Code: 00 03
+
+II. INC DX
+
+    Machine Code: 42
+
+III. MOV AX, VAR + 6 ; OFFSET of VAR is 0002H
+
+    Machine Code: B8 08 00
+
+IV. SUB CX, VAR2 ; OFFSET of VAR2 is 0008H
+
+    Machine Code: 81 E9 08 00
+
+V. MOV [SI+490], BX
+
+    Machine Code: 89 B3 EA 01

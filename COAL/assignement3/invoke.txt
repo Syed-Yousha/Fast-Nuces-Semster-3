@@ -1,0 +1,15 @@
+.data
+array DD 5 DUP (?)
+average PROTO a: PTR DWORD
+
+.code
+main PROC
+INVOKE average,  ADDR array
+call DumpRegs
+exit
+main ENDP
+average PROC  a: PTR DWORD
+;;;;WORKING
+ret
+average ENDP
+END main

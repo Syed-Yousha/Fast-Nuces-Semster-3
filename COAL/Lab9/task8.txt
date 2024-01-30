@@ -1,0 +1,111 @@
+INCLUDE Irvine32.inc
+
+.data
+    inputValue DWORD ?
+    resultMsg BYTE "Armstrong Number: ", 0
+
+.code
+main PROC
+    call TakeInput
+    exit
+main ENDP
+
+TakeInput PROC
+    mov edx, OFFSET prompt
+    call WriteString
+    call ReadInt
+    mov inputValue, eax
+
+    mov eax, inputValue
+    call Armstrong
+
+    mov edx, OFFSET resultMsg
+    call WriteString
+    call Display
+    ret
+TakeInput ENDP
+
+Armstrong PROC
+    mov ecx, inputValue
+    call GetDigits
+    mov eax, inputValue
+    call CalculateArmstrong
+    ret
+Armstrong ENDP
+
+GetDigits PROC
+    enter 0, 0
+
+    mov eax, ecx
+    mov ebx, 10
+    mov ecx, 0
+
+    repeat:
+        xor edx, edx
+        div ebx
+        inc ecx
+        test eax, eax
+        jnz repeat
+
+    leave
+    ret
+GetDigits ENDP
+
+CalculateArmstrong PROC
+    enter 0, 0
+
+    mov ebx, inputValue
+    mov ecx, inputValue
+    mov eax, 0
+
+    repeat:
+        mov edx, ebx
+        call GetDigitPower
+        add eax, edx
+        xor edx, edx
+        div 10
+        mov ebx, eax
+        test ebx, ebx
+        jnz repeat
+
+    leave
+    ret
+CalculateArmstrong ENDP
+
+GetDigitPower PROC
+    enter 0, 0
+
+    mov eax, ecx
+    mov ebx, 10
+    xor edx, edx
+    div ebx
+    mov ecx, edx
+
+    leave
+    ret
+GetDigitPower ENDP
+
+Display PROC
+    mov edx, OFFSET resultMsg
+    call WriteString
+    cmp ecx, inputValue
+    je is_armstrong
+    mov edx, OFFSET noMsg
+    call WriteString
+    jmp done_display
+
+is_armstrong:
+    mov edx, OFFSET yesMsg
+    call WriteString
+
+done_display:
+    call Crlf
+    ret
+Display ENDP
+
+prompt BYTE "Enter a number: ", 0
+resultMsg BYTE "Armstrong Number: ", 0
+yesMsg BYTE "Yes", 0
+noMsg BYTE "No", 0
+
+END main

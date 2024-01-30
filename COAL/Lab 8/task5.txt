@@ -1,0 +1,40 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+.data
+val1 sdword 60
+val2 sdword 30
+val3 sdword 15
+tmp1 sdword 0
+tmp2 sdword 0
+
+.code
+main PROC
+
+;exp 1
+mov edx, 0
+mov eax, val2
+mov ebx, val3
+
+div ebx
+mov tmp1, eax
+
+;exp 2 k226007
+mov edx, 0
+mov eax, val1
+mov ebx, val2
+div ebx
+
+mov tmp2, eax
+
+;multiply
+mov eax, tmp1
+mul tmp2
+
+mov val1, eax
+
+call writedec
+
+call dumpregs
+main ENDP
+
+END main

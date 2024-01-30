@@ -1,0 +1,37 @@
+include Irvine32.inc
+
+.DATA
+    dividend    DWORD 0D4A4h
+    divisor     DWORD 0Ah
+    DivideRecursive PROTO divnd: dword, divisor: dword
+
+.CODE
+
+main PROC
+    mov eax, dividend
+    mov ebx, divisor
+
+    INVOKE DivideRecursive, eax, ebx
+
+    mov eax, dividend
+    call WriteHex
+
+    exit
+main ENDP
+
+DivideRecursive PROC divnd: dword, divis: dword
+    
+    mov eax, divnd
+    mov ebx, divis
+    cmp eax, 5h
+    jbe Done
+
+    div ebx 
+
+    INVOKE DivideRecursive, eax, ebx
+
+Done:
+    ret
+DivideRecursive ENDP
+
+END main

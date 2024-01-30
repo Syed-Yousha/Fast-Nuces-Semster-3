@@ -1,0 +1,46 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+
+.data
+array dword 1, 2, 3, 4, 5, 6
+
+.code
+main PROC
+    mov esi, OFFSET array
+    mov ecx, lengthof array
+
+    mov ebx, 0
+
+reverseLoop:
+    mov eax, [esi]
+    mov edi, [esi + ecx * 4]
+    mov [esi], edi
+    mov [esi + ecx * 4], eax
+    inc ebx
+    dec ecx
+    cmp ebx, ecx
+    jae done
+    add esi, 4
+    jmp reverseLoop
+
+done:
+
+; Displaying
+mov esi, OFFSET array
+mov ecx, lengthof array
+
+l2:
+
+	mov eax, [esi]
+	call WriteDec
+	call crlf
+
+	add esi, TYPE array
+loop l2
+
+
+    call DumpRegs
+    call ExitProcess
+main ENDP
+
+END main

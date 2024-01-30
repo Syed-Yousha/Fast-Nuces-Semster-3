@@ -1,0 +1,42 @@
+include irvine32.inc
+
+.data
+array dword 1,2,3,4,5
+mult byte 5
+
+.code
+main PROC
+    
+    call load_array
+
+    mov esi, offset array
+    mov ecx, lengthof array
+
+    l2:
+        mov eax, [esi]
+        call writedec
+        call crlf
+        add esi, 4
+    loop l2
+    
+
+main ENDP
+
+
+load_array proc
+
+    mov esi, offset array
+    mov ecx, lengthof array
+    movzx eax, mult 
+
+    l1:
+        mov ebx, [esi]
+        imul ebx, eax
+        mov [esi], ebx
+        add esi, 4 
+
+    loop l1
+    ret 
+load_array endp
+
+END main

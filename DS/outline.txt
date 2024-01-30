@@ -1,0 +1,10 @@
+array 
+linked list
+backtracking
+sorting 
+searching
+hashing
+stack 
+queue
+trees
+graphs

@@ -1,0 +1,4 @@
+Hashing
+1. Seperate chaining
+2. Linear Probing
+3. Quadratic probing

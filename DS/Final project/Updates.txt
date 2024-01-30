@@ -1,0 +1,7 @@
+
+-> Program should ask the both player names every time. The first alphabet should be
+ there piece.
+ 
+
+-> After a player wins, the program ask for second round and ask players name 
+again. It save the previos player data in a link list also who wins.

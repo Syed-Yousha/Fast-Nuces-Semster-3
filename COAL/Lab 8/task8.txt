@@ -1,0 +1,63 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+.data
+ostr byte "Hello",0
+eyncstr byte 6 dup(?)
+prompt byte "Enter and interger to encrypt: ",0
+
+.code
+main PROC
+
+	mov edx, offset prompt
+	call writestring
+	call crlf
+	call readint
+	test eax, 80h 
+	js leftloop
+
+
+	mov esi, offset ostr
+	mov edi, offset eyncstr
+	mov ecx, 0
+
+	rightloop:
+		movzx edx, al
+		mov al, [esi]
+		ror al, 1
+		mov [edi], al
+		
+		cmp ecx, edx
+		jg ended
+		inc esi
+		inc edi
+		inc ecx
+		jmp rightloop
+
+
+	leftloop:
+		movzx edx, al
+		neg edx
+		mov al, [esi]
+		rol al, 1
+		mov [edi], al
+		
+		cmp ecx, edx
+		jg ended
+		inc esi
+		inc edi
+		inc ecx
+		jmp leftloop
+
+
+	ended:
+	;display
+	mov edx, offset ostr
+	call writestring
+	call crlf
+
+	mov edx, offset eyncstr
+	call writestring
+
+call dumpregs
+main ENDP
+END main

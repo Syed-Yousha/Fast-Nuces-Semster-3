@@ -1,0 +1,75 @@
+INCLUDE Irvine32.inc
+
+
+.DATA
+	array1 dword 1,2,3,4,5,6,7,8,9
+	prompt1 byte "Enter a number to find in array: ",0
+	prompt2 byte "Value found.",0
+	prompt3 byte "Value Not found!",0
+	
+	arr_len dword ? 
+	num dword ?
+	search PROTO num: PTR dword, len: PTR dword, arr: PTR dword
+
+.CODE
+main PROC
+	mov edx, offset prompt1
+	call WriteString
+	call ReadInt
+	mov num, eax
+	mov ecx, lengthof array1
+	inc ecx
+	mov arr_len, ecx
+
+	INVOKE search, ADDR num, ADDR arr_len, ADDR array1
+
+	cmp eax, 1
+	je msg_found
+
+	mov edx, offset prompt3
+	call crlf
+	call WriteString
+	call crlf
+	jmp done
+
+	msg_found:
+	mov edx, offset prompt2
+	call crlf
+	call WriteString
+	call crlf
+
+	done:
+	call dumpregs
+	exit
+main ENDP
+
+search proc USES esi edi ebx, num1: PTR dword, len: PTR dword, arr: PTR dword
+	
+	mov edi, num1
+	mov esi, arr
+	mov ebx, [edi]
+	
+	cmp [esi], ebx
+	je found
+	add arr, 4
+
+	mov esi, len
+	mov ecx, [esi]
+	dec ecx
+	mov [esi], ecx
+	mov len, esi
+
+	cmp ecx, 0
+	je next
+
+	INVOKE search, num1, len, arr
+	jmp next
+
+	found:
+	mov eax, 1
+
+	next:
+	ret
+search endp
+
+END main

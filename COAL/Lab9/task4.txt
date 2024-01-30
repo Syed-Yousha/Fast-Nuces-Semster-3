@@ -1,0 +1,41 @@
+INCLUDE Irvine32.inc
+
+.data
+    inputValue DWORD ?
+
+.code
+main PROC
+    mov  edx, OFFSET prompt
+    call WriteString
+    call ReadInt
+    mov  inputValue, eax
+
+    mov  eax, inputValue
+    call Fact
+
+    mov  edx, OFFSET resultMsg
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    exit
+main ENDP
+
+Fact PROC
+    cmp  eax, 1
+    jbe  done_factorial
+
+    push eax
+    dec  eax
+    call Fact
+    pop  ebx
+    imul eax, ebx
+
+done_factorial:
+    ret
+Fact ENDP
+
+prompt BYTE "Enter a number: ", 0
+resultMsg BYTE "Factorial: ", 0
+
+END main

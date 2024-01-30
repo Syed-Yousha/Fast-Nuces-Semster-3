@@ -1,0 +1,32 @@
+INCLUDE Irvine32.inc
+
+.data
+    inputValue DWORD ?
+
+.code
+main PROC
+    call LocalSquare
+    exit
+main ENDP
+
+LocalSquare PROC
+    enter 8, 0
+    mov  edx, OFFSET prompt
+    call WriteString
+    call ReadInt
+
+    imul eax, eax
+
+    mov  edx, OFFSET resultMsg
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    leave
+    ret
+LocalSquare ENDP
+
+prompt BYTE "Enter a number: ", 0
+resultMsg BYTE "Square: ", 0
+
+END main

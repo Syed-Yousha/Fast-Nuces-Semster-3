@@ -1,0 +1,32 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+
+.data
+tmp dword 0
+itr dword 5
+
+.code
+main PROC
+
+mov ecx, 4
+mov eax, 1
+
+L1:
+	mov tmp, ecx
+	dec itr
+	mov ecx, itr
+	L2:
+
+		call WriteDec
+
+	loop L2
+	call crlf
+	mov ecx, tmp
+
+loop L1
+
+call DumpRegs
+exit
+
+main ENDP
+END main

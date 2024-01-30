@@ -1,0 +1,21 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+.data
+ts word 1101101010011010b
+bmins word 0
+
+.code
+main PROC
+
+
+movzx eax, ts
+shr eax, 4
+shl ax, 10
+shr ax, 10
+mov bmins, ax
+call writebin
+
+call dumpregs
+main ENDP
+
+END main

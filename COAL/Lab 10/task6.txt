@@ -1,0 +1,58 @@
+include irvine32.inc
+
+.data
+    target BYTE "AAEBDCFBBC", 0
+    freqTable DWORD 256 DUP (0)
+
+.code
+main PROC
+    INVOKE GetFrequency, ADDR target, ADDR freqTable
+
+    mov esi, OFFSET freqTable
+    mov ecx, 256
+
+    display_loop:
+        movzx eax, BYTE PTR [esi]
+        cmp eax, 0
+        je done_display
+
+        mov edx, esi
+        call WriteChar
+        mov eax, DWORD PTR [esi]
+        call WriteInt
+        call Crlf
+
+        add esi, 4
+        loop display_loop
+
+    done_display:
+
+    INVOKE ExitProcess, 0
+
+main ENDP
+
+GetFrequency PROC USES esi, target:PTR BYTE, freqTable:PTR DWORD
+    mov esi, freqTable
+    mov ecx, 256
+    rep stosd
+
+    mov esi, target
+count_loop:
+    movzx eax, BYTE PTR [esi]
+    cmp eax, 0
+    je end_count
+
+    movzx edx, eax
+    mov eax, DWORD PTR [freqTable + edx * 4]
+    inc eax
+    mov DWORD PTR [freqTable + edx * 4], eax
+
+    inc esi
+    jmp count_loop
+
+end_count:
+    ret
+
+GetFrequency ENDP
+
+END main

@@ -1,0 +1,39 @@
+include irvine32.inc
+.data
+str1 byte "127&j~3@^&*@*@45^",0
+p1 byte "String is found at ",0
+p2 byte "String Not found",0
+
+.code
+main proc
+call Scan_string
+
+exit
+main endp
+
+Scan_string proc
+	mov edi, offset str1
+	mov ecx, lengthof str1
+	mov eax, 0
+	mov al, '@'
+
+	repne scasb
+	je found
+	jne not_found
+
+	found: 
+		mov edx, offset p1
+		mov eax, ecx
+		call WriteString
+		call WriteDec
+		jmp next
+
+	not_found:
+		mov edx, offset p2
+		call writestring
+
+	next:
+	ret
+Scan_string endp
+
+end main

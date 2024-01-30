@@ -1,0 +1,44 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+.data
+num1 qword 1111111111
+num2 qword 2222222222
+res qword 0
+
+.code
+main PROC
+
+mov esi, offset num1
+mov edi, offset num2
+mov edx, offset res
+
+; first 32
+mov eax, [esi]
+mov ebx, [edi]
+add eax, ebx
+mov [edx], eax
+
+add esi, 4
+add edi, 4
+add edx, 4
+
+
+;second 32
+mov eax, [esi]
+mov ebx, [edi]
+add eax, ebx
+mov [edx], eax
+
+;display
+mov esi, offset res
+mov eax, [esi]
+call writedec
+
+add esi, 4
+mov eax, [esi]
+call writedec
+
+call dumpregs
+main ENDP
+
+END main

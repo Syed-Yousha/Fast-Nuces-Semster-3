@@ -1,0 +1,36 @@
+INCLUDE Irvine32.inc
+
+.data
+
+.code
+main PROC
+    ; Example usage of the ThreeProd procedure
+    push 3
+    push 5
+    push 1
+    call ThreeProd
+    add esp, 12  ; Clean up the stack after the procedure call
+    exit
+main ENDP
+
+ThreeProd PROC
+    ; Parameters are accessed from the stack
+    push ebp
+    mov ebp, esp
+    
+    mov eax, [ebp + 8]
+    mov ebx, [ebp + 12]
+    mov ecx, [ebp + 16]
+
+
+    imul eax, ebx  ; Multiply the first and second parameters
+    imul eax, ecx  ; Multiply the result by the third parameter
+
+    ; Display the product
+    call WriteDec  ; Display the result as a decimal number
+    call Crlf      ; Move to the next line
+    call dumpregs
+    ret
+ThreeProd ENDP
+
+END main

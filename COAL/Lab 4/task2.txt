@@ -1,0 +1,31 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+.data
+val1 BYTE 10h
+val2 WORD 8000h
+val3 DWORD 0FFFFh
+val4 WORD 7FFFh
+
+.code
+main PROC
+
+;(1)
+inc val2
+
+;(2)
+sub eax, val3
+
+;(3)
+mov ebx, 0
+mov ecx, 0
+
+mov bx, val2
+mov cx, val4
+
+sub bx, cx
+
+
+call DumpRegs
+exit
+main ENDP
+END main

@@ -1,0 +1,43 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+.data
+arrayB BYTE 10, 20, 30
+arrayW WORD 150, 250, 350
+arrayD DWORD 600, 1200, 1800
+
+sum1 DWORD 0
+sum2 DWORD 0
+sum3 DWORD 0
+
+.code
+main PROC
+
+; ========= SUM 1 =========
+mov eax, 0
+add eax, DWORD ptr [arrayB]
+add eax, DWORD ptr [arrayW]
+add eax, DWORD ptr [arrayD]
+
+mov sum1, eax
+
+
+; ========= SUM 2 =========
+mov ebx, 0
+add ebx, DWORD ptr [arrayB + 1]
+add ebx, DWORD ptr [arrayW + 2]
+add ebx, DWORD ptr [arrayD + 4]
+
+mov sum2, ebx
+
+; ========= SUM 2 =========
+mov ecx, 0
+add ecx, DWORD ptr [arrayB + 2]
+add ecx, DWORD ptr [arrayW + 4]
+add ecx, DWORD ptr [arrayD + 8]
+
+mov sum3, ecx
+
+call DumpRegs
+exit
+main ENDP
+END main

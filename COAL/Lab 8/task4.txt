@@ -1,0 +1,37 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+.data
+
+.code
+main PROC
+
+; without SHRD
+mov eax, 0
+mov ax, 0001b
+mov bx, 0b
+
+shl ax, 15
+or bx, ax
+
+mov eax, 0
+mov ax, bx
+
+call crlf
+call writebin
+call crlf
+
+; With SHRD
+mov eax, 0
+mov ax, 0001b
+mov bx, 0b
+
+shrd bx, ax, 1
+mov ax, bx
+
+call crlf
+call writebin
+call crlf
+call dumpregs
+main ENDP
+
+END main

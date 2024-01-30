@@ -1,0 +1,95 @@
+INCLUDE Irvine32.inc
+
+.data
+    inputValue DWORD ?
+    startTime DWORD ?
+    endTime DWORD ?
+    resultMsgRecursive BYTE "Factorial (Recursive): ", 0
+    resultMsgNonRecursive BYTE "Factorial (Non-Recursive): ", 0
+    timeMsgRecursive BYTE "Time (ms) Recursive: ", 0
+    timeMsgNonRecursive BYTE "Time (ms) Non-Recursive: ", 0
+
+.code
+main PROC
+    mov  edx, OFFSET prompt
+    call WriteString
+    call ReadInt
+    mov  inputValue, eax
+
+    mov  eax, inputValue
+    call GetMSeconds
+    mov  startTime, eax
+
+    mov  eax, inputValue
+    call FactRecursive
+
+    call GetMSeconds
+    mov  endTime, eax
+
+    mov  edx, OFFSET resultMsgRecursive
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    mov  eax, startTime
+    mov  edx, OFFSET timeMsgRecursive
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    mov  eax, inputValue
+    call GetMSeconds
+    mov  startTime, eax
+
+    mov  eax, inputValue
+    call FactNonRecursive
+
+    call GetMSeconds
+    mov  endTime, eax
+
+    mov  edx, OFFSET resultMsgNonRecursive
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    mov  eax, startTime
+    mov  edx, OFFSET timeMsgNonRecursive
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    exit
+main ENDP
+
+FactRecursive PROC
+    cmp  eax, 1
+    jbe  done_factorial
+
+    push eax
+    dec  eax
+    call FactRecursive
+    pop  ebx
+    imul eax, ebx
+
+done_factorial:
+    ret
+FactRecursive ENDP
+
+FactNonRecursive PROC
+    mov  ebx, 1
+
+    fact_loop:
+        cmp  eax, 1
+        jbe  done_factorial_non_recursive
+        imul ebx, eax
+        dec  eax
+        jmp  fact_loop
+
+done_factorial_non_recursive:
+    mov  eax, ebx
+    ret
+FactNonRecursive ENDP
+
+prompt BYTE "Enter a number: ", 0
+
+END main

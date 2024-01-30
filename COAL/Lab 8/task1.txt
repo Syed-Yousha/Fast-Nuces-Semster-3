@@ -1,0 +1,35 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+
+.data
+multiplicant word 10101b
+multiplier word 10b
+
+result word 0 
+.code
+main PROC
+
+mov ecx, 4
+mov bx, multiplicant
+mov dx, multiplier
+
+
+l1:
+
+	shr dx, 1
+	jnc skip
+
+		add result, bx 
+
+	skip:
+	shl bx, 1
+loop l1
+
+movzx eax, result
+call writebin
+call crlf
+
+call dumpregs
+main ENDP
+
+END main

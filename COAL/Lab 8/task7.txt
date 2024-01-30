@@ -1,0 +1,83 @@
+TITLE IsPrime.asm
+INCLUDE Irvine32.inc
+
+.data
+    prompt BYTE "Enter an integer (1 to exit): ", 0
+    primeMsg BYTE "Prime number", 0
+    notPrimeMsg BYTE "Not a prime number", 0
+    numberToDisplay SWORD 12345
+    anotherNumber SDWORD -987654321
+
+.code
+IsPrime PROC
+    cmp eax, 2
+    jl IsNotPrime
+
+    mov ecx, 2
+
+CheckDivisor:
+    mov edx, 0
+    div ecx
+
+    cmp edx, 0
+    je IsNotPrime
+
+    inc ecx
+    cmp ecx, eax
+    jge IsPrimeDone
+
+    jmp CheckDivisor
+
+IsNotPrime:
+    xor eax, eax
+    ret
+
+IsPrimeDone:
+    ret
+IsPrime ENDP
+
+main PROC
+InputLoop:
+    mov edx, OFFSET prompt
+    call WriteString
+    call ReadInt
+
+    cmp eax, 1
+    je ExitProgram
+
+    call IsPrime
+
+    jnz PrimeFound
+
+    mov edx, OFFSET notPrimeMsg
+    call WriteString
+    call Crlf
+    jmp InputLoop
+
+PrimeFound:
+    mov edx, OFFSET primeMsg
+    call WriteString
+    call Crlf
+    jmp InputLoop
+
+ExitProgram:
+    exit
+main ENDP
+
+DisplayNumbers PROC
+    movzx eax, numberToDisplay
+    mov edx, OFFSET prompt
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    mov eax, anotherNumber
+    mov edx, OFFSET prompt
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    ret
+DisplayNumbers ENDP
+
+END main

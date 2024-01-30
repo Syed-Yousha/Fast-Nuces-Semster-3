@@ -1,0 +1,39 @@
+INCLUDE Irvine32.inc
+
+.data
+    num1 DWORD 10
+    num2 DWORD 20
+    num3 DWORD 30
+    result DWORD ?
+
+.code
+main PROC
+    mov eax, num1
+    push eax
+
+    mov eax, num2
+    push eax
+
+    mov eax, num3
+    push eax
+
+    pop eax
+    add eax, [esp]
+
+    pop eax
+    add eax, [esp]
+
+    mov result, eax
+
+    mov edx, OFFSET resultMsg
+    call WriteString
+    mov eax, result
+    call WriteInt
+    call Crlf
+
+    exit
+main ENDP
+
+resultMsg BYTE "Result: ", 0
+
+END main

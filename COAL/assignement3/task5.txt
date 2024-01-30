@@ -1,0 +1,32 @@
+include Irvine32.inc
+
+.DATA
+    sourceString    BYTE "###ABC", 0
+    byte_remove dword 3
+
+.CODE
+
+Str_trimLeadingChar PROC  pStr:PTR BYTE, num:dword
+    
+    mov ecx, num
+    call dumpregs
+    
+    mov esi, pStr
+
+    add esi, ecx 
+    mov edx, esi
+    call WriteString
+
+    ret
+Str_trimLeadingChar ENDP
+
+main PROC
+    mov esi, offset sourceString   
+    mov eax, byte_remove     
+
+    INVOKE Str_trimLeadingChar, esi, eax
+
+    exit
+main ENDP
+
+END main

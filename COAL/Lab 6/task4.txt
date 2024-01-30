@@ -1,0 +1,49 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+
+.data
+var dword 5
+promt1 byte "  ",0
+promt2 byte " *",0
+tmp dword 0
+
+.code
+main PROC
+
+call pattern
+
+CALL DumpRegs
+EXIT
+main ENDP
+
+pattern Proc 
+
+	mov edx, offset promt1
+	mov ebx, 0
+	mov ecx, var
+	
+	l1:
+		mov tmp, ecx
+		;gaping
+		gap:
+			call WriteString
+		loop gap
+
+		;Printing
+		inc ebx
+		mov ecx, ebx
+
+		l2: 
+			mov edx, offset promt2
+			call WriteString
+
+		loop l2	
+
+		call crlf
+		mov edx, offset promt1
+		mov ecx, tmp
+	loop l1
+	ret
+pattern ENDP
+
+END main

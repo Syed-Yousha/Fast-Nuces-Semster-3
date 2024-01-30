@@ -1,0 +1,71 @@
+INCLUDE Irvine32.inc
+
+.data
+    prompt1 BYTE "Enter the first number: ", 0
+    prompt2 BYTE "Enter the second number: ", 0
+    resultMsg BYTE "GCD: ", 0
+
+.code
+main PROC
+    call TakeInput
+    exit
+main ENDP
+
+TakeInput PROC
+    ; Prompt for and input the first number
+    mov edx, OFFSET prompt1
+    call WriteString
+    call ReadInt
+    push eax  ; Store the first number on the stack
+
+    ; Prompt for and input the second number
+    mov edx, OFFSET prompt2
+    call WriteString
+    call ReadInt
+    push eax  ; Store the second number on the stack
+
+    ; Call the GCD procedure
+    call GCD
+
+    ; Display the result
+    mov edx, OFFSET resultMsg
+    call WriteString
+    call WriteInt
+    call Crlf
+
+    ; Clean up the stack
+    add esp, 8
+
+    ret
+TakeInput ENDP
+
+GCD PROC
+    push ebp
+    mov ebp, esp
+
+    mov ebx, [ebp + 12]
+    mov eax, [ebp + 8]
+    
+
+    call dumpregs
+    ; Find the GCD using Euclidean Algorithm
+    find_gcd:
+        test eax, ebx
+        jz done_gcd
+        xchg eax, ebx
+        xor edx, edx
+        div ebx
+        jmp find_gcd
+
+    done_gcd:
+    ; Store the result on the stack
+    push eax
+
+
+    mov esp, ebp
+    pop ebp
+
+    ret
+GCD ENDP
+
+END main

@@ -1,0 +1,64 @@
+include Irvine32.inc
+
+.DATA
+array1 DWORD 1, 2, 3, 3, 3, 4, 5
+arraySize DWORD 7
+
+FindThrees PROTO pArray:PTR DWORD, size:PTR DWORD
+
+.CODE
+
+main PROC
+    INVOKE FindThrees ADDR array1, ADDR arraySize
+    cmp eax, 1
+    je  Found
+    mov edx, OFFSET array1
+    call WriteIntArray
+    jmp NotFound
+
+Found:
+    mov edx, OFFSET array1
+    call WriteIntArray
+    mov eax, 1
+
+NotFound:
+    mov eax, 0
+    exit
+main ENDP
+
+FindThrees PROC USES esi ecx edx, pArray:PTR DWORD, size:PTR DWORD
+    mov esi, pArray
+    mov edi, size
+    mov ecx, [edi]
+    mov edx, 0
+
+    cmp ecx, 2
+    jl  NotFound
+
+    mov ecx, ecx
+
+CheckThrees:
+    mov eax, [esi]
+    cmp eax, 3
+    je  IncrementCounter
+    mov edx, 0
+
+IncrementCounter:
+    add edx, 1
+    cmp edx, 3
+    je  FoundThrees
+    add esi, 4
+    loop CheckThrees
+
+NotFound:
+    mov eax, 0
+    jmp Done
+
+FoundThrees:
+    mov eax, 1
+
+Done:
+    ret
+FindThrees ENDP
+
+END main

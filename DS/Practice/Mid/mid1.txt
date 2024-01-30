@@ -1,0 +1,10 @@
+1. Rule of three
+2. arrays
+3. Sorting techniques(all with definations)
+4. linked lists
+	-Singli
+	-Dubli
+	-circular
+5. backtracking
+	- rat in maze
+	- nQueen problem

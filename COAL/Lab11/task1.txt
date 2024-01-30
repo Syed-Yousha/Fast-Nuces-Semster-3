@@ -1,0 +1,43 @@
+INCLUDE Irvine32.inc
+
+.data
+Str1 BYTE '127&j~3#^&*#*#45^', 0
+Result DWORD ?
+
+.code
+main PROC
+    mov  esi, OFFSET Str1
+    call Scan_String
+    mov  Result, eax
+    mov  eax, Result
+    call WriteInt
+    call Crlf
+    exit
+
+Scan_String PROC
+    mov  ecx, 0
+    mov  al, '#'
+
+find_char:
+    cmp  byte ptr [esi], 0
+    je   not_found
+
+    cmp  byte ptr [esi], al
+    je   found
+
+    inc  esi
+    inc  ecx
+    jmp  find_char
+
+found:
+    mov  eax, ecx
+    ret
+
+not_found:
+    mov  eax, -1
+    ret
+
+Scan_String ENDP
+
+main ENDP
+END main

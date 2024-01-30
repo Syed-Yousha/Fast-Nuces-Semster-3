@@ -1,0 +1,54 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+
+.data
+str_1 byte "Hello",0
+str_2 byte "Hello",0
+prompt byte "strings are equal",0
+prompt_2 byte "strings are not equal",0
+
+.code
+main PROC
+
+mov esi, offset str_1
+mov edi, offset str_2
+
+call is_compare
+
+call dumpregs
+main ENDP
+
+is_compare proc
+	
+	mov ecx, lengthof str_1
+	mov eax, 0
+	mov ebx, 0
+
+	l1:
+
+		mov al, [esi]
+		mov bl, [edi]
+
+		cld
+		cmp al, bl
+		jne str_diff
+
+		inc esi
+		inc edi
+
+	loop l1
+
+
+	mov edx, offset prompt
+	call WriteString
+	jmp done
+
+	str_diff:
+		mov edx, offset prompt_2
+		call WriteString
+		
+
+	done: ret
+is_compare endp
+
+END main

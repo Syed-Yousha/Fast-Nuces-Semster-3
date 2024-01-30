@@ -1,0 +1,59 @@
+INCLUDE Irvine32.inc
+
+.data
+    numRows DWORD 5
+    numCols DWORD ?
+
+.code
+main PROC
+    mov edx, OFFSET prompt
+    call WriteString
+    call ReadInt
+    mov numCols, eax
+
+    mov ecx, numRows
+    call PrintPattern
+
+    exit
+main ENDP
+
+PrintPattern PROC
+    mov  eax, 1
+    mov  ebx, 65
+
+    outer_loop:
+        mov  ecx, numCols
+        call PrintSpaces
+
+        mov  ecx, eax
+        call PrintChars
+
+        call Crlf
+
+        inc  eax
+        add  ebx, eax
+        loop outer_loop
+
+    ret
+PrintPattern ENDP
+
+PrintSpaces PROC
+    spaces_loop:
+        call WriteChar
+        dec  ecx
+        jnz  spaces_loop
+    ret
+PrintSpaces ENDP
+
+PrintChars PROC
+    chars_loop:
+        mov  eax, ebx
+        call WriteChar
+        inc  ebx
+        loop chars_loop
+    ret
+PrintChars ENDP
+
+prompt BYTE "Enter the number of columns: ", 0
+
+END main

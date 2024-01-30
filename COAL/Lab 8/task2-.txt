@@ -1,0 +1,17 @@
+TITLE ReverseArray.asm
+INCLUDE Irvine32.inc
+
+.data
+
+.code
+main PROC
+
+mov ax, -128
+shl eax, 16
+ror ax, 16
+
+
+call dumpregs
+main ENDP
+
+END main

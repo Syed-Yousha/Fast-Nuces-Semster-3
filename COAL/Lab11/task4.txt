@@ -1,0 +1,45 @@
+INCLUDE Irvine32.inc
+
+.data
+    OriginalStr BYTE 'Hello', 0
+    ReversedStr BYTE 20 DUP(?)
+
+.code
+main PROC
+    mov  esi, OFFSET OriginalStr
+    mov  edi, OFFSET ReversedStr
+    call Str_Reverse
+
+    mov  edx, OFFSET ReversedStr
+    call WriteString
+
+    exit
+main ENDP
+
+Str_Reverse PROC
+    mov  ecx, 0
+
+    find_end:
+        cmp  byte ptr [esi + ecx], 0
+        je   reverse_loop
+        inc  ecx
+        jmp  find_end
+
+    reverse_loop:
+        dec  ecx
+
+    reverse_characters:
+        cmp  ecx, 0
+        jl   done_reverse
+        mov  al, [esi + ecx]
+        mov  [edi], al
+        inc  edi
+        dec  ecx
+        jmp  reverse_characters
+
+    done_reverse:
+        mov  byte ptr [edi], 0
+        ret
+Str_Reverse ENDP
+
+END main

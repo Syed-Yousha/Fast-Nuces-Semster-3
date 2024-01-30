@@ -1,0 +1,110 @@
+INCLUDE Irvine32.inc
+
+.data
+    userInput DWORD 4 DUP(?)
+    primeCount DWORD ?
+
+    prompt BYTE "Enter a number: ", 0
+    resultMsg BYTE "The largest prime number among the inputs is: ", 0
+
+.code
+main PROC
+    mov  ecx, 4
+    lea  edi, userInput
+
+    input_loop:
+        mov  edx, OFFSET prompt
+        call WriteString
+        call ReadInt
+
+        mov  [edi], eax
+        inc  edi
+        loop input_loop
+
+    mov  ecx, 4
+    lea  esi, userInput
+    mov  primeCount, 0
+
+    check_prime_loop:
+        mov  eax, [esi]
+        call CheckPrime
+        test al, al
+        jz   not_prime
+
+        inc  primeCount
+
+    not_prime:
+        inc  esi
+        loop check_prime_loop
+
+    cmp  primeCount, 4
+    jne  not_all_prime
+
+    mov  ecx, 4
+    lea  esi, userInput
+    call LargestPrime
+
+    jmp  exit_program
+
+not_all_prime:
+    mov  edx, OFFSET notAllPrimeMsg
+    call WriteString
+
+exit_program:
+    exit
+main ENDP
+
+CheckPrime PROC
+    mov  ecx, 2
+
+    check_loop:
+        cmp  ecx, eax
+        jae  is_prime
+
+        mov  edx, 0
+        div  ecx
+
+        test edx, edx
+        jz   not_prime
+
+        inc  ecx
+        jmp  check_loop
+
+    not_prime:
+        mov  al, 0
+        ret
+
+    is_prime:
+        mov  al, 1
+        ret
+CheckPrime ENDP
+
+LargestPrime PROC
+    mov  edx, 0
+
+    find_largest_prime:
+        mov  eax, [esi]
+        call CheckPrime
+        test al, al
+        jz   not_prime
+
+        cmp  eax, edx
+        jbe  not_largest_prime
+
+        mov  edx, eax
+
+    not_largest_prime:
+        add  esi, 4
+        loop find_largest_prime
+
+    mov  edx, OFFSET resultMsg
+    call WriteString
+    mov  eax, edx
+    call WriteInt
+
+    ret
+LargestPrime ENDP
+
+notAllPrimeMsg BYTE "Not all input numbers are prime.", 0
+
+END main

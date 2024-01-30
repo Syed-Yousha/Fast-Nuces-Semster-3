@@ -1,0 +1,21 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+.data
+
+.code
+main PROC
+
+; (a)
+mov ax, 7ff0h
+add al, 10h
+
+; (b)
+add ah, 1
+
+; (c)
+add ax, 2
+
+call DumpRegs
+exit
+main ENDP
+END main

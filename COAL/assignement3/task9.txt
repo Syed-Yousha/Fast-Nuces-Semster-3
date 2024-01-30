@@ -1,0 +1,42 @@
+; a. A = 5 * A - 7
+
+mov AX, 5
+IMUL A
+sub AX, 7
+mov A, AX
+
+; b. B = (A - B) * (B + 10)
+
+mov BX, B
+add BX, 10
+mov AX, A
+sub AX, B
+mov A, AX
+IMUL B
+mov B, AX
+
+; c. A = 6 - 9 * A
+
+mov AX, 6
+sub AX, 9
+mov A, AX
+IMUL A
+
+; d. IF A^2 + B^2 = C^2 THEN Set CF ELSE Clear CF END IF
+
+mov AX, A
+IMUL A
+mov BX, B
+IMUL B
+add AX, BX
+mov CX, C
+IMUL C
+cmp AX, CX
+je .then
+jmp .else
+
+.then:
+set CF
+
+.else:
+clear CF

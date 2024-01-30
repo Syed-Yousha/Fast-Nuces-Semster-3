@@ -1,0 +1,48 @@
+TITLE Fibonacci Series (Fibonacci.asm)
+INCLUDE Irvine32.inc
+
+.data
+    array dword 10 DUP(?)
+    count dword 10
+    index dword 0
+
+.code
+main PROC
+    mov ecx, count           
+    mov eax, 0               
+    mov ebx, 1               
+
+    mov esi, OFFSET array    
+
+    mov [esi], eax           
+    add esi, 4               
+
+    dec ecx                   
+
+    
+generate_fibonacci:
+    add eax, ebx              
+    mov ebx, [esi - 4]        
+    mov [esi], eax            
+    add esi, 4               
+
+loop generate_fibonacci
+
+
+; Display 
+mov esi, OFFSET array     
+mov ecx, count            
+
+display_fibonacci:
+    mov eax, [esi]            
+    call Writedec             
+    call Crlf                 
+
+    add esi, 4               
+loop display_fibonacci    
+
+call DumpRegs
+exit
+
+main ENDP
+END main

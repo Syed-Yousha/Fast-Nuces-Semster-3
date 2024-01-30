@@ -1,0 +1,35 @@
+TITLE My First Program (Test.asm)
+INCLUDE Irvine32.inc
+
+.data
+    array WORD 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    array2 WORD 10 DUP(?)
+
+.code
+main PROC
+    mov esi, OFFSET array
+    mov edi, OFFSET array2
+    mov ecx, LENGTHOF array
+
+l1:
+    push [esi]
+    pop [edi]
+
+    add esi, TYPE array
+    add edi, TYPE array2
+loop l1
+
+mov edi, OFFSET array2
+mov ecx, LENGTHOF array2
+
+l2:
+    mov ax, [edi]
+    call WriteDec
+    call Crlf
+    add edi, TYPE array2
+loop l2
+
+    CALL DumpRegs
+    EXIT
+main ENDP
+END main
